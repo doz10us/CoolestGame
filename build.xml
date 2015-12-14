@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CoolestGame" default="build" basedir=".">
+
+    <target name="set-variables">
+        <condition property="env" value="Devel" else="${target}">
+            <not>
+                <isset property="target"/>
+            </not>
+        </condition>
+
+        <condition property="dir" value="${basedir}" else="${outdir}">
+            <not>
+                <isset property="outdir"/>
+            </not>
+        </condition>
+
+        <condition property="dev_mode" value="False" else="True">
+            <equals arg1="${env}" arg2="Release" forcestring="True"/>
+        </condition>
+
+        <condition property="ratio" value="9" else="0">
+            <equals arg1="${env}" arg2="Release" forcestring="True"/>
+        </condition>
+    </target>
+
+    <target name="build" depends="set-variables">
+        <replaceregexp file="${basedir}/client/main.py"
+            match="DEV_MODE = (.*)"
+            replace="DEV_MODE = ${dev_mode}" />
+    
+        <exec executable="python" dir="${basedir}/client">
+            <arg value="-m" />
+            <arg value="compileall" />
+            <arg value="." />
+        </exec>
+    
+        <zip destfile="${dir}/CoolestGame.zip" level="${ratio}">
+            <zipfileset dir="./client" prefix="client/" includes="*.pyc"/>
+        </zip>
+    </target>
+
+</project>
