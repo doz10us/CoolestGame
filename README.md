@@ -1,3 +1,3 @@
 # CoolestGame
 ## Usage of deployment tool
-`ant [-Dtarget=Release|Devel] [-Doutdir=\<folder_for_artifact\>]`
+`ant [-Dtarget=Release|Devel] [-Doutdir=<folder_for_artifact>]`
